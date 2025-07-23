@@ -2,7 +2,7 @@
 #SingleInstance Force
 #Include "%A_ScriptDir%\libraries\jsongo.v2.ahk"
 
-global version := "1.0.2"
+global version := "1.0.32"
 
 A_LocalAppData := EnvGet("LOCALAPPDATA")
 localScriptDir := A_LocalAppData "\JeebusGPT\"
