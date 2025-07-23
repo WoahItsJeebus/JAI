@@ -170,7 +170,7 @@ SendChatMessage(*) {
         return
     }
 
-    conversation.Push({role: Default_Behavior.role, content: reply})
+    conversation.Push({role: "assistant", content: reply})
     AppendToChatBox("GPT: " reply)
 }
 
