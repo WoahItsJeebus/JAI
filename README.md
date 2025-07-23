@@ -33,7 +33,7 @@ Requires your own OpenAI API key.
 
 #### Method 2 — Clone the repo:
 ```bash
-   git clone https://github.com/WoahItsJeebus/JAI.git
+   git clone https://github.com/WoahItsJeebus/JeebusGPT.git
 ```
 
 ---
