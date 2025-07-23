@@ -279,8 +279,7 @@ setTrayIcon(*) {
 			DirCreate(localScriptDir "images")
 		}
 
-		if !FileExist(downloadedIcon)
-			DownloadURL("https://raw.githubusercontent.com/WoahItsJeebus/JAI/refs/heads/main/images/JAI_Tray.ico", downloadedIcon)
+		DownloadURL("https://raw.githubusercontent.com/WoahItsJeebus/JAI/refs/heads/main/images/JAI_Tray.ico", downloadedIcon)
 	}
 
 	try checkDownload()
