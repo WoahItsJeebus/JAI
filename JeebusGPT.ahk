@@ -1,6 +1,6 @@
 #Requires AutoHotkey v2.0.19
 #SingleInstance Force
-#Include "%A_ScriptDir%\resources\jsongo.v2.ahk"
+#Include "%A_ScriptDir%\libraries\jsongo.v2.ahk"
 
 global version := "1.0.2"
 
