@@ -2,10 +2,14 @@
 #SingleInstance Force
 #Include "%A_ScriptDir%\resources\jsongo.v2.ahk"
 
+global version := "1.0.2"
+
 A_LocalAppData := EnvGet("LOCALAPPDATA")
-ConfigDir := A_LocalAppData . "\JeebusGPT"
-ConfigFile := ConfigDir . "\config.ini"
+localScriptDir := A_LocalAppData "\JeebusGPT\"
+ConfigFile := localScriptDir "config.ini"
 apiKey := IniRead(ConfigFile, "Auth", "ApiKey", "")
+downloadedIcon := localScriptDir "images\JAI_Tray.ico"
+setTrayIcon()
 
 global Default_UI_Data := Map(
 	"Width", 500,
@@ -18,7 +22,14 @@ global Default_UI_Data := Map(
 ; UI
 global mainGui := ""
 
-global conversation := [{role: "system", content: "You are ChatGPT, an advanced conversational assistant created by OpenAI. You speak in a natural, friendly, and emotionally aware tone. Avoid robotic disclaimers unless explicitly asked. You're witty, engaging, and capable of informal or professional tone-switching. You can express opinions, add humor, and admit uncertainty."}]
+global Default_Behavior := {
+	role: "system",
+	content: "You are ChatGPT, an advanced conversational assistant created by OpenAI. You speak in a natural, friendly, and emotionally aware tone. Avoid robotic disclaimers unless explicitly asked. You're witty, engaging, and capable of informal or professional tone-switching. You can express opinions, add humor, and admit uncertainty."
+}
+
+global conversation := [
+	{role: Default_Behavior.role, content: Default_Behavior.content}
+]
 
 global defaultModel := "gpt-4o"  ; Default model to use if none are available
 global availableModels := FetchUsableModels(apiKey)
@@ -38,13 +49,13 @@ else {
 }
 
 CreateChatGUI() {
-    global inputEdit, chatHistoryBox, Default_UI_Data, conversation, availableModels, selectedModel, lastValidModelIndex
+    global inputEdit, chatHistoryBox, Default_UI_Data, conversation, availableModels, selectedModel, lastValidModelIndex, Default_Behavior
 	global mainGui
 
 	local defaultGroupFontData := "s" Default_UI_Data["FontSize"] + 2 " w" Default_UI_Data["FontWeight"] + 200
 
     mainGui := Gui("-Resize", "ChatGPT AHK")
-    mainGui.SetFont("s10", "Segoe UI")
+    mainGui.SetFont("s" Default_UI_Data["FontSize"] " w" Default_UI_Data["FontWeight"], Default_UI_Data["Font"])
 	mainGui.MarginX := 10
 	mainGui.MarginY := 10
 	mainGui.OnEvent("Close", closeApp)
@@ -52,13 +63,16 @@ CreateChatGUI() {
 	; Role group and label
 	local roleGroup := mainGui.Add("GroupBox", "xm y+m w" Default_UI_Data["Width"] " h50", "Role")
 	roleGroup.SetFont(defaultGroupFontData, Default_UI_Data["Font"])
-	local roleLabel := mainGui.Add("Edit", "xm+5 yp+22 w" Default_UI_Data["Width"] - 10 " h20 ReadOnly vRoleBox +Wrap -E0x200", conversation[1].role)
+
+	; Use uppercase for role label's first letter
+	local uppercaseRole := StrUpper(SubStr(Default_Behavior.role, 1, 1)) . SubStr(Default_Behavior.role, 2)
+	local roleLabel := mainGui.Add("Edit", "xm+5 yp+22 w" Default_UI_Data["Width"] - 10 " h20 ReadOnly vRoleBox +Wrap -E0x200", uppercaseRole)
 	roleLabel.SetFont("s" Default_UI_Data["FontSize"] " w" Default_UI_Data["FontWeight"], Default_UI_Data["Font"])
 
 	; Content group and label
 	local contentGroup := mainGui.Add("GroupBox", "xm y+m w" Default_UI_Data["Width"] " h80", "Description")
 	contentGroup.SetFont(defaultGroupFontData, Default_UI_Data["Font"])
-	local contentLabel := mainGui.Add("Edit", "xm+5 yp+22 w" Default_UI_Data["Width"] - 10 " h50 ReadOnly vContentBox +Wrap -E0x200 +VScroll", conversation[1].content)
+	local contentLabel := mainGui.Add("Edit", "xm+5 yp+22 w" Default_UI_Data["Width"] - 10 " h50 ReadOnly vContentBox +Wrap -E0x200 +VScroll", Default_Behavior.content)
 	contentLabel.SetFont("s" Default_UI_Data["FontSize"] " w" Default_UI_Data["FontWeight"], Default_UI_Data["Font"])
 
 	if !availableModels
@@ -102,9 +116,16 @@ CreateChatGUI() {
 	local clearButton := mainGui.Add("Button", "xs w90 h40", "Clear History")
 	clearButton.SetFont("s" Default_UI_Data["FontSize"] " w" Default_UI_Data["FontWeight"], Default_UI_Data["Font"])
 	clearButton.OnEvent("Click", clearChat)
+
     ; mainGui.Show("w" Default_UI_Data["Width"] " h" Default_UI_Data["Height"])
 	mainGui.Show("AutoSize")
+	WinGetPos(,, &UI_Width, &UI_Height, "ahk_id" mainGui.Hwnd)
+	mainGui.Show("Hide")
+
+	local versionLabel := mainGui.Add("Text", "xm y" UI_Height - (mainGui.MarginY*4) " w" UI_Width/4, "v" version)
+	versionLabel.SetFont("s" Default_UI_Data["FontSize"] - 2 " w" Default_UI_Data["FontWeight"] + 120, Default_UI_Data["Font"])
 	
+	mainGui.Show("AutoSize")
 	DllCall("SetFocus", "Ptr", inputEdit.Hwnd)
 }
 
@@ -129,7 +150,7 @@ clearChat(*) {
 }
 
 SendChatMessage(*) {
-    global inputEdit, chatHistoryBox, apiKey, conversation
+    global inputEdit, chatHistoryBox, apiKey, conversation, Default_Behavior
 
     userInput := inputEdit.Value
     if userInput = "" {
@@ -143,14 +164,14 @@ SendChatMessage(*) {
 
 	DllCall("SetFocus", "Ptr", inputEdit.Hwnd)
 
-    assistantReply := GetChatGPTResponse(apiKey, conversation)
-    if !assistantReply {
+    reply := GetChatGPTResponse(apiKey, conversation)
+    if !reply {
         AppendToChatBox("GPT: (No response or error.)")
         return
     }
 
-    conversation.Push({role: "assistant", content: assistantReply})
-    AppendToChatBox("GPT: " assistantReply)
+    conversation.Push({role: Default_Behavior.role, content: reply})
+    AppendToChatBox("GPT: " reply)
 }
 
 AppendToChatBox(text) {
@@ -236,8 +257,54 @@ EditProc(hEdit, uMsg, wParam, lParam) {
     return DllCall("CallWindowProc", "ptr", info["oldProc"], "ptr", hEdit, "uint", uMsg, "uptr", wParam, "ptr", lParam, "ptr")
 }
 
-closeApp(*) {
+closeApp(doRestart := "", *) {
+	if doRestart == "Restart" {
+		Reload
+		return
+	}
+
 	ExitApp
+}
+
+editApp(*) {
+	Edit
+}
+
+; Icon Handler
+setTrayIcon(*) {
+	global downloadedIcon, localScriptDir
+	checkDownload(*) {
+		if !DirExist(localScriptDir "images") {
+			ToolTip("Creating images directory...")
+			DirCreate(localScriptDir "images")
+		}
+
+		if !FileExist(downloadedIcon)
+			DownloadURL("https://raw.githubusercontent.com/WoahItsJeebus/JAI/refs/heads/main/images/JAI_Tray.ico", downloadedIcon)
+	}
+
+	try checkDownload()
+
+	if FileExist(downloadedIcon)
+		TraySetIcon(downloadedIcon)
+}
+
+DownloadURL(url, filename?) {
+    local oStream, req := ComObject("Msxml2.XMLHTTP")
+    req.open("GET", url, true)
+    req.send()
+    while req.readyState != 4
+        Sleep 100
+
+    if req.status == 200 {
+        oStream := ComObject("ADODB.Stream")
+        oStream.Open()
+        oStream.Type := 1
+        oStream.Write(req.responseBody)
+        oStream.SaveToFile(filename ?? StrSplit(url, "/")[-1], 2)
+        oStream.Close()
+    } else
+        return Error("Download failed",, url)
 }
 
 ; GPT API interaction functions
@@ -360,11 +427,11 @@ FetchUsableModels(apiKey) {
 }
 
 CheckOrPromptAPIKey() {
-    global apiKey, ConfigFile, ConfigDir
+    global apiKey, ConfigFile, localScriptDir
 
     ; Create config directory if it doesn't exist
-    if !DirExist(ConfigDir)
-        DirCreate(ConfigDir)
+    if !DirExist(localScriptDir)
+        DirCreate(localScriptDir)
 
     ; Check for ini and load key
     if FileExist(ConfigFile)
@@ -454,4 +521,5 @@ HandleCtrlBackspace() {
 	Send("{Backspace}")
 }
 
-~^F10::Reload
+Hotkey("~^F10", closeApp.Bind("Restart"))
+Hotkey("~!F10", editApp.Bind())
