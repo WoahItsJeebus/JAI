@@ -33,8 +33,11 @@ Requires your own OpenAI API key.
 
 #### Method 2 — Clone the repo:
 ```bash
-   git clone https://github.com/WoahItsJeebus/JAI.git
+   git clone https://github.com/WoahItsJeebus/JeebusGPT.git
 ```
+1. Open the JeebusGPT folder created by the clone
+2. Make sure the JeebusGPT.ahk script is in the same location as the libraries folder
+3. Run JeebusGPT.ahk
 
 ---
 
