@@ -26,10 +26,10 @@ Requires your own OpenAI API key.
 ## Setup
 
 #### Method 1 — Download the files manually:
-1. Click the green `Code` button
-<img width="70" height="24" alt="GitHub_Code_Button" src="https://github.com/user-attachments/assets/69a85de0-2814-4288-b442-44cc07890408" />
+1. Click the green <img width="70" height="24" alt="GitHub_Code_Button" src="https://github.com/user-attachments/assets/69a85de0-2814-4288-b442-44cc07890408" /> button
 2. Download ZIP
-3. Run JeebusGPT.ahk
+3. Extract all
+4. Run JeebusGPT.ahk
 
 #### Method 2 — Clone the repo:
 ```bash
