@@ -274,12 +274,15 @@ editApp(*) {
 setTrayIcon(*) {
 	global downloadedIcon, localScriptDir
 	checkDownload(*) {
-		if !DirExist(localScriptDir "images") {
-			ToolTip("Creating images directory...")
+		if !DirExist(localScriptDir "images")
 			DirCreate(localScriptDir "images")
-		}
+		
+		if FileExist(downloadedIcon)
+			FileDelete(downloadedIcon)
 
 		DownloadURL("https://raw.githubusercontent.com/WoahItsJeebus/JAI/refs/heads/main/images/JAI_Tray.ico", downloadedIcon)
+
+		downloadedIcon := localScriptDir "images\JAI_Tray.ico"
 	}
 
 	try checkDownload()
