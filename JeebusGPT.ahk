@@ -8,7 +8,7 @@ A_LocalAppData := EnvGet("LOCALAPPDATA")
 localScriptDir := A_LocalAppData "\JeebusGPT\"
 ConfigFile := localScriptDir "config.ini"
 apiKey := IniRead(ConfigFile, "Auth", "ApiKey", "")
-downloadedIcon := localScriptDir "images\JAI_Tray.ico"
+downloadedIcon := localScriptDir "images\Tray.ico"
 setTrayIcon()
 
 global Default_UI_Data := Map(
@@ -280,9 +280,9 @@ setTrayIcon(*) {
 		if FileExist(downloadedIcon)
 			FileDelete(downloadedIcon)
 
-		DownloadURL("https://raw.githubusercontent.com/WoahItsJeebus/JAI/refs/heads/main/images/JAI_Tray.ico", downloadedIcon)
+		DownloadURL("https://raw.githubusercontent.com/WoahItsJeebus/JeebusGPT/refs/heads/main/images/Tray.ico", downloadedIcon)
 
-		downloadedIcon := localScriptDir "images\JAI_Tray.ico"
+		downloadedIcon := localScriptDir "images\Tray.ico"
 	}
 
 	try checkDownload()
