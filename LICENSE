@@ -1,0 +1,19 @@
+JeebusGPT (the "Software")
+Copyright (c) 2025 WoahItsJeebus
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this Software and associated documentation files (the "Software"), to use, copy, modify, merge, publish, and distribute copies of the Software, subject to the following conditions:
+
+1. Attribution
+   - Any copies or substantial portions of the Software must retain acknowledgment of the original creator by name: WoahItsJeebus.
+   - The name JeebusGPT should be preserved where reasonably possible, especially when the original interface and functionality remain recognizable.
+
+2. Bundled Libraries
+   - This Software includes the jsongo library authored by GroggyOtter, used under its own open license terms. You are expected to preserve author credit for any third-party components bundled with the Software.
+
+3. Liability and Misuse
+   - The Software is provided "as is", without warranty of any kind. The creator assumes no liability for damages arising from misuse.
+   - Use of this Software in conjunction with the OpenAI API is governed by OpenAI's own terms of service. Violations of OpenAI’s content or safety policies may result in enforcement by OpenAI, not the Software’s creator.
+
+4. Modifications and Derivatives
+   - You may modify or fork the Software, including for commercial or personal use, provided these conditions are met.
+   - While renaming is permitted, preserving a visible credit or reference to the original project (JeebusGPT by WoahItsJeebus) is strongly encouraged, particularly in derivative works made public.
