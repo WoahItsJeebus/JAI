@@ -57,3 +57,5 @@ This project is released under the MIT License. You are free to modify and redis
 This interface uses OpenAI’s API. If your conversations are flagged, halted, or restricted, that action is taken by OpenAI’s moderation systems, not this script or its developer. You are solely responsible for complying with OpenAI’s usage policies.
 
 This script is intended for personal use, experimentation, and learning. Please don't be a dick. Be kind and respect others when using AI.
+
+If you fork or modify this project, please credit the original work and name where appropriate.
