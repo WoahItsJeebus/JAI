@@ -1,19 +1,21 @@
-JeebusGPT (the "Software")
+MIT License
+
 Copyright (c) 2025 WoahItsJeebus
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this Software and associated documentation files (the "Software"), to use, copy, modify, merge, publish, and distribute copies of the Software, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-1. Attribution
-   - Any copies or substantial portions of the Software must retain acknowledgment of the original creator by name: WoahItsJeebus.
-   - The name JeebusGPT should be preserved where reasonably possible, especially when the original interface and functionality remain recognizable.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-2. Bundled Libraries
-   - This Software includes the jsongo library authored by GroggyOtter, used under its own open license terms. You are expected to preserve author credit for any third-party components bundled with the Software.
-
-3. Liability and Misuse
-   - The Software is provided "as is", without warranty of any kind. The creator assumes no liability for damages arising from misuse.
-   - Use of this Software in conjunction with the OpenAI API is governed by OpenAI's own terms of service. Violations of OpenAI’s content or safety policies may result in enforcement by OpenAI, not the Software’s creator.
-
-4. Modifications and Derivatives
-   - You may modify or fork the Software, including for commercial or personal use, provided these conditions are met.
-   - While renaming is permitted, preserving a visible credit or reference to the original project (JeebusGPT by WoahItsJeebus) is strongly encouraged, particularly in derivative works made public.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
